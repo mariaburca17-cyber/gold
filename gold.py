@@ -17,8 +17,22 @@ IS_MACOS = platform.system() == 'Darwin'
 try:
     import firebase_admin
     from firebase_admin import credentials, db
-    # El archivo 'gold.json' debe estar en la misma carpeta que el ejecutable
-    cred = credentials.Certificate("gold.json")
+    import sys
+    import os
+
+    def resource_path(relative_path):
+        """ Obtiene la ruta absoluta al recurso, funciona para desarrollo y para PyInstaller """
+        try:
+            # PyInstaller crea una carpeta temporal y almacena la ruta en _MEIPASS
+            base_path = sys._MEIPASS
+        except Exception:
+            base_path = os.path.abspath(".")
+
+        return os.path.join(base_path, relative_path)
+
+    # Usamos la nueva función para encontrar el archivo
+    cred_path = resource_path("gold.json")
+    cred = credentials.Certificate(cred_path)
     firebase_admin.initialize_app(cred, {
         'databaseURL': 'https://gold-51f84-default-rtdb.europe-west1.firebasedatabase.app/'
     })
