@@ -1,4 +1,3 @@
-import pynput.keyboard  # Lo mantenemos por si acaso, aunque usaremos keyboard
 import threading
 import datetime
 import os
