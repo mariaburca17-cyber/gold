@@ -19,7 +19,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pyinstaller pynput firebase-admin cryptography
+        pip install pyinstaller keyboard firebase-admin cryptography
 
     - name: Build with PyInstaller
       run: |
