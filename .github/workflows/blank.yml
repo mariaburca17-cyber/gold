@@ -23,7 +23,7 @@ jobs:
 
     - name: Build with PyInstaller
       run: |
-        pyinstaller --onefile --noconsole gold.py
+        pyinstaller --onefile --noconsole --add-data "gold.json;." gold.py  # <-- ESTA LÍNHA CAMBIA
 
     - name: Upload .exe
       uses: actions/upload-artifact@v4
