@@ -26,7 +26,7 @@ jobs:
         pyinstaller --onefile --noconsole gold.py
 
     - name: Upload .exe
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: keylogger-exe
         path: dist/gold.exe
